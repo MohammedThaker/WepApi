@@ -1,4 +1,6 @@
+using Application.Interfaces;
 using Domain.Models;
+using Infrastructure.Interfacies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,14 +14,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<LibraryDBContext>(
     opt=>opt.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=store;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-var app = builder.Build();
 
+builder.Services.AddTransient(typeof(IGetPayment), typeof(PaymentRepos ));
+builder.Services.AddTransient(typeof(IUnitOftWork), typeof(UnitOfWork));
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} 
 
 app.UseHttpsRedirection();
 

@@ -1,5 +1,7 @@
-﻿using Domain.Models;
+﻿using Application.Interfaces;
+using Domain.Models;
 using Domain.Models.Request;
+using Infrastructure.Interfacies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +12,13 @@ namespace WebApi.Controllers
     public class CustomerController : ControllerBase
     {
         public readonly LibraryDBContext dBContext;
-        public CustomerController(LibraryDBContext dBContext)
+        public readonly IUnitOftWork unitOftWork;
+
+        public CustomerController(LibraryDBContext dBContext, IUnitOftWork unitOftWork)
         {
 
             this.dBContext = dBContext;
-
+            this.unitOftWork = unitOftWork;
         }
 
 
@@ -26,11 +30,14 @@ namespace WebApi.Controllers
             return Ok(Custpage);
 
         }
+
+
+
         [HttpGet("{Id}")]
         public IActionResult GetCus(int Id)
         {
 
-            var Cust = dBContext.Customers.Where(x => x.CustomerId == Id).FirstOrDefault();
+            var Cust = unitOftWork.Customers.GetByIdi(Id);
             if (Cust == null)
                 return NotFound(" Invalid Costumer Id");
             return Ok(Cust);
@@ -39,6 +46,15 @@ namespace WebApi.Controllers
 
 
         }
+      
+
+
+
+
+
+
+
+
         [HttpPost]
         public IActionResult SetCustomer([FromBody] Customer NewCustmoer)
         {
