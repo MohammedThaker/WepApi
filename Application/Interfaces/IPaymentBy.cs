@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Domain.Models.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq.Expressions;
 
 namespace Application.Interfaces
 {
-    public interface  ICustomerRepository<T> where T : class
+    public abstract class IPaymentBy
     {
-     public  T GetByIdi(int id);
-   
-
+        public abstract void ProcessPayment(string name);
     }
 }

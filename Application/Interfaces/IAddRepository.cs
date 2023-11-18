@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IAddCustomers<T> where T : class
+    public interface IAddRepository<T> where T : class
     { 
-        public T Post(int entity);
+       public T Add(T entity);
 
     }
 }

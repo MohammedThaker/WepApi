@@ -9,26 +9,19 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfacies
 {
-    public class CustomerRepository<T> : ICustomerRepository<T> where T : class
+    public class DeleteRepository<T> : IDeleteRepository<T> where T : class
     {
         protected LibraryDBContext dBContext;
 
-        public CustomerRepository(LibraryDBContext dBContext)
+        public DeleteRepository(LibraryDBContext dBContext)
         {
             this.dBContext = dBContext;
         }
-
-        public IEnumerable<T> GetAll()
+        public void RemoveById(T entity)
         {
-            return dBContext.Set<T>().ToList();
+            dBContext.Set<T>().Remove(entity);
         }
-        
-        public  T GetByIdi(int id)
-        {
-            return dBContext.Set<T>().Find(id);
-        }
-       
 
-
+      
     }
 }

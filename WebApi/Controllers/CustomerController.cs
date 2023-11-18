@@ -11,13 +11,11 @@ namespace WebApi.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        public readonly LibraryDBContext dBContext;
-        public readonly IUnitOftWork unitOftWork;
+        public readonly IAddUnitOfWork unitOftWork;
 
-        public CustomerController(LibraryDBContext dBContext, IUnitOftWork unitOftWork)
+        public CustomerController( IAddUnitOfWork unitOftWork)
         {
 
-            this.dBContext = dBContext;
             this.unitOftWork = unitOftWork;
         }
 
@@ -25,7 +23,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public IActionResult GetCustomers() {
 
-            var Custpage = dBContext.Customers.ToList();
+            var Custpage = unitOftWork.GetAllCoustomer.GetAll();
 
             return Ok(Custpage);
 
@@ -50,7 +48,7 @@ namespace WebApi.Controllers
 
 
 
-
+        
 
 
 
@@ -64,17 +62,12 @@ namespace WebApi.Controllers
                 return BadRequest(new { ErrorCode = 501, ErrorMessage = " Invalid Costumer name" });
 
             }
-            // var Cust = Customers.Where(x => x.CustomerId == NewCustmoer.CustomerId).FirstOrDefault();
-            // if (Cust != null) {
-            //   return Conflict(new { ErrorCode = 502, ErrorMessage = "Duplicate In customer id" });
-            //}
-
-            // Customers.Add(NewCustmoer);
-
-            dBContext.Customers.Add(NewCustmoer);
-            dBContext.SaveChanges();
 
 
+            unitOftWork.AddCustomer.Add(NewCustmoer);
+
+
+            unitOftWork.Complete();
             return Ok(NewCustmoer);
 
 
@@ -90,49 +83,57 @@ namespace WebApi.Controllers
 
     
     [HttpPut("Id")]
-    public IActionResult updateCustomer(int Id,[FromBody] Customer NewCustmoer)
+    public IActionResult UpdateCustomer(int Id,[FromBody] Customer NewCustmoer)
     {
 
 
-            // var Cust = Customers.Where(x => x.CustomerId == NewCustmoer.CustomerId).FirstOrDefault();
-            // if (Cust != null) {
-            //   return Conflict(new { ErrorCode = 502, ErrorMessage = "Duplicate In customer id" });
-            //}
+            var CutsUpdate = unitOftWork.Customers.GetByIdi(Id);
 
-            // Customers.Add(NewCustmoer);
-            var Cust = dBContext.Customers.Where(x => x.CustomerId == Id).FirstOrDefault();
-            if (Cust == null)
-                return NotFound(" Not found Costumer Id");
-            Cust.Name = NewCustmoer.Name;
-            Cust.Adress= NewCustmoer.Adress;
-            Cust.Phone = NewCustmoer.Phone;
-            dBContext.SaveChanges();
+            if (CutsUpdate == null)
+                return NotFound($"Movie with Id = {Id} not found");
 
-
-
-            return Ok(Cust);
-      
+            CutsUpdate.Name =  NewCustmoer.Name;
+            CutsUpdate.Adress = NewCustmoer.Adress;
+            CutsUpdate.Phone = NewCustmoer.Phone;
+            CutsUpdate.Created = DateTime.Now;
+            unitOftWork.UpdateCustomers.Update(CutsUpdate);
+            unitOftWork.Complete();
+            return Ok(CutsUpdate);
 
 
 
 
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
         [HttpDelete("Id")]
-        public IActionResult updateCustomer(int Id)
+        public IActionResult RemoveById(int Id)
         {
 
 
             // var Cust = Customers.Where(x => x.CustomerId == NewCustmoer.CustomerId).FirstOrDefault();
             // if (Cust != null) {
             //   return Conflict(new { ErrorCode = 502, ErrorMessage = "Duplicate In customer id" });
-            //}
+            //}RemoveById
 
             // Customers.Add(NewCustmoer);
-            var Customers = dBContext.Customers.Where(x => x.CustomerId == Id).FirstOrDefault();
-            if (Customers == null)
+            var CutsRemove = unitOftWork.Customers.GetByIdi(Id);
+            if (CutsRemove == null)
                 return NotFound(" Not found Costumer Id");
-            dBContext.Customers.Remove(Customers);
-            dBContext.SaveChanges();
+           unitOftWork.DeleteCustomers.RemoveById(CutsRemove);
+            unitOftWork.Complete();
             return Ok("Removeed") ;
 
 

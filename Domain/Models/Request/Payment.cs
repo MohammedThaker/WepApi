@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Request
 {
-    public  class Payment
+    public  class Payment : Domain.Models.Base.Base
     {
 
 
@@ -15,6 +15,12 @@ namespace Domain.Models.Request
         public int PaymentId { get; set; }
         public string PaymentTypy { get; set; }
 
+        public string IsValid()
+        {
 
+            if (PaymentTypy == null)
+                return "Customer Id Required";
+            return base.ToString();
+        }
     }
 }

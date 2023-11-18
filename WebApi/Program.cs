@@ -15,8 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<LibraryDBContext>(
     opt=>opt.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=store;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
-builder.Services.AddTransient(typeof(IGetPayment), typeof(PaymentRepos ));
-builder.Services.AddTransient(typeof(IUnitOftWork), typeof(UnitOfWork));
+builder.Services.AddTransient(typeof(IAddUnitOfWork), typeof(AddUnitOfWork));
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

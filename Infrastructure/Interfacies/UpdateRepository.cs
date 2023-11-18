@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces;
 using Domain.Models;
-using Domain.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +8,21 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfacies
 {
-    public class PaymentRepos : IGetPayment
+    public class UpdateRepository<T> : IUpdateRepository<T> where T : class
     {
         protected LibraryDBContext dBContext;
-        public PaymentRepos(LibraryDBContext dBContext)
+
+        public UpdateRepository(LibraryDBContext dBContext)
         {
             this.dBContext = dBContext;
-
         }
 
-        public override IEnumerable<Payment> GetAll()
+        public void Update(T entity)
         {
-            return dBContext.Set<Payment>().ToList();
+
+
+             dBContext.Set<T>().Update(entity);
+
         }
     }
 }

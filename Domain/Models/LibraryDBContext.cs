@@ -11,6 +11,7 @@ namespace Domain.Models
         }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Payment> Payment { get; set; }
+        public DbSet<Order> Order { get; set; }
 
     }
 }

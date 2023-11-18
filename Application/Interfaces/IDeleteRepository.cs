@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IUnitOftWork : IDisposable
+    public interface IDeleteRepository< T> where T : class
+
     {
-         ICustomerRepository<Customer> Customers { get; }
-         ICustomerRepository<Payment> Payments { get; } 
-         int Complete();
+
+        public void RemoveById(T entity);
     }
 }

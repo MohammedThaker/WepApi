@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace Domain.Migrations
 {
     [DbContext(typeof(LibraryDBContext))]
-    [Migration("20231112192713_Intalize")]
-    partial class Intalize
+    [Migration("20231118212558_storeonline")]
+    partial class storeonline
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,6 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
@@ -54,19 +53,43 @@ namespace WebApi.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Domain.Models.Request.Payment", b =>
+            modelBuilder.Entity("Domain.Models.Request.Order", b =>
                 {
-                    b.Property<int>("CustomerId")
+                    b.Property<int>("Orderid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Orderid"));
+
+                    b.Property<DateTime>("DateOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Datecreate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderNo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Orderid");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Domain.Models.Request.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
                     b.Property<string>("PaymentTypy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CustomerId");
+                    b.HasKey("PaymentId");
 
                     b.ToTable("Payment");
                 });
