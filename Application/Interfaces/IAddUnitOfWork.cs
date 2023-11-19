@@ -24,9 +24,20 @@ namespace Application.Interfaces
 
         IUpdateRepository<Order> UpdateOrder { get; }
        IGetRepositoryById<Order> GetOrderById { get; }
-        IPaymentBy IPaymentBy { get; }
-        IPayDrivary PayDrivary { get; }
-        IPayCash  Paycassh { get; }
+        IPaymentByGet<Payment> IPaymentBy { get; }
+        IPaydeliveryGet<PayDelivery> PayDrivary { get; }
+        IPayCashGet<PaymentCash>  Paycassh { get; }
+        IPaymentFactory PaymentFactory { get; }
+
+
+
+        IPaymentByAdd<Payment> PaymentByAdd { get; }
+        IPayDelivaryAdd<PayDelivery> PayByDelivaryAdd { get; }
+
+        IPayCashAdd<PaymentCash> PayByCashAdd { get; }
+        IPaymentFactoryAdd PaymentFactoryAdd { get; }
+
+
 
 
     }

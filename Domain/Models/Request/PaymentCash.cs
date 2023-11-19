@@ -7,11 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.Request
 {
-    public class PayCash:Payment
+    public class PaymentCash:Payment
     {
-      
-  
-  
+
+
+        public string? Pcash{ get; set; }
 
     }
 }

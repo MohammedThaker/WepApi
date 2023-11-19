@@ -9,12 +9,14 @@ using Domain.Models.Request;
 
 namespace Infrastructure.Interfacies
 {
-    public class PayCash : PaymentBy, IPayCash
+    public class PayCashGet<T> : PaymentByGet<T>, IPayCashGet<T> where T : PaymentCash
     {
-        public PayCash(LibraryDBContext dBContext) : base(dBContext)
+        public PayCashGet(LibraryDBContext dBContext) : base(dBContext)
         {
         }
 
-       
+
+
+
     }
 }

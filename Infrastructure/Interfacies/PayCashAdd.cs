@@ -9,21 +9,15 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfacies
 {
-    public class PaymentBy : IPaymentBy
+    public class PayCashAdd<T> : PaymentByAdd<T>, IPayCashAdd<T> where T : PaymentCash
     {
-        protected LibraryDBContext dBContext;
-
-        public PaymentBy(LibraryDBContext dBContext)
+        public PayCashAdd(LibraryDBContext dBContext) : base(dBContext)
         {
-            this.dBContext = dBContext;
         }
 
-        public IEnumerable<Payment> GetAll()
+        public void Add(PayDelivery payCash)
         {
-            return dBContext.Set<Payment>().ToList();
+            throw new NotImplementedException();
         }
-
-       
     }
 }
-   

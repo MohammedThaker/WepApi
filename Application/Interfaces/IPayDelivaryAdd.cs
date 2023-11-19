@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface  IPaymentBy
+    public interface IPayDelivaryAdd<T> : IPaymentByAdd<T> where T : PayDelivery
     {
-
-        public IEnumerable<Payment> GetAll();
+       
     }
 }
