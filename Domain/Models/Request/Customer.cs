@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Request
 {
-    public class Customer
+    public class Customer: Domain.Models.Base.Base
     {
         [Key]
         public int CustomerId { get; set; }
@@ -21,6 +21,15 @@ namespace Domain.Models.Request
         public string? Adress { get; set; }
         [Required]
         public DateTime Created { get; set; }
+        public  string IsValid()
+        {
+            if (string.IsNullOrWhiteSpace(Name))
+                return "Name is Required";
+              
+            if (CustomerId == null)
+                return "Customer Id Required";
+            return base.ToString();
+        }
 
     }
     

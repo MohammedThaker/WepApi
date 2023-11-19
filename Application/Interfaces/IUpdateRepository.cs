@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Request
+namespace Application.Interfaces
 {
-    public class PayOnDelivery:Payment
+    public interface IUpdateRepository <T> where T : class
     {
-
+        public void Update(T entity);
     }
 }
