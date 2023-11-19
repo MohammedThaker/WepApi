@@ -24,6 +24,10 @@ namespace Application.Interfaces
 
         IUpdateRepository<Order> UpdateOrder { get; }
        IGetRepositoryById<Order> GetOrderById { get; }
+        IPaymentBy IPaymentBy { get; }
+        IPayDrivary PayDrivary { get; }
+        IPayCash  Paycassh { get; }
+
 
     }
 

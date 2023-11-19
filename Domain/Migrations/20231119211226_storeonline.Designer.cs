@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(LibraryDBContext))]
-    [Migration("20231118212558_storeonline")]
+    [Migration("20231119211226_storeonline")]
     partial class storeonline
     {
         /// <inheritdoc />

@@ -12,12 +12,14 @@ namespace WebApi.Controllers
     public class PaymentsController : ControllerBase
     {      
         public readonly IAddUnitOfWork unitOftWork;
+ 
 
 
         public PaymentsController(IAddUnitOfWork unitOftWork)
         {
 
             this.unitOftWork = unitOftWork;
+           
           
         }
 
@@ -25,11 +27,11 @@ namespace WebApi.Controllers
         [HttpGet]
         public IActionResult GetPayments()
         {
-            var Custpay = unitOftWork.GetAllPayment.GetAll();               
+          var pay = unitOftWork.IPaymentBy.GetAll();
 
-            if (Custpay == null)
+            if (pay == null)
                 return NotFound(" Invalid Payments Id");
-            return Ok(Custpay);
+            return Ok(pay);
 
 
         }
@@ -40,7 +42,7 @@ namespace WebApi.Controllers
         public IActionResult GetPaymentsById(int Id)
         {
 
-            var Cust = unitOftWork.GetPayments.GetByIdi(Id);
+            Payment? Cust = unitOftWork.GetPayments.GetByIdi(Id);
             if (Cust == null)
                 return NotFound(" Invalid Payments Id");
             return Ok(Cust);
@@ -73,25 +75,7 @@ namespace WebApi.Controllers
 
 
             unitOftWork.Complete();
-                 IPaymentBy paymentMethod;
-
-            ;
-            if (NewPayment.PaymentTypy == "dalivery")
-            {
-                var pay = NewPayment.PaymentTypy;
-                paymentMethod = new CashOnDeliveryPayment();
-                paymentMethod.ProcessPayment(pay);
-            }
-            else
-            {
-                var pay = NewPayment.PaymentTypy;
-                   paymentMethod = new CasPayment();
-
-                paymentMethod.ProcessPayment(pay) ;
-                Console.WriteLine();
-
-            }
-
+            
           
 
 

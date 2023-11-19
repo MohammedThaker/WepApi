@@ -18,7 +18,6 @@ namespace Infrastructure.Interfacies
 
         public IUpdateRepository<Payment> UpdatePayment { get; private set; }
         public IDeleteRepository<Payment> DeletePayments { get; private set; }
-        public  IPaymentBy PaymentBy { get; private set; }
 
         public IGetRepository<Payment> GetAllPayment { get; private set; }
         public IGetRepository<Customer> GetAllCoustomer { get; private set; }
@@ -28,8 +27,11 @@ namespace Infrastructure.Interfacies
         public IUpdateRepository<Order> UpdateOrder { get; private set; }
         public IGetRepositoryById<Order> GetOrderById { get; private set; }
 
-   
+        public IPaymentBy IPaymentBy { get; private set; }
 
+        public IPayDrivary PayDrivary { get; private set; }
+
+        public IPayCash Paycassh { get; private set; }
 
         public AddUnitOfWork(LibraryDBContext dBContext):base(dBContext)
 
@@ -45,10 +47,10 @@ namespace Infrastructure.Interfacies
             GetAllOrder = new GetAllRepository<Order>(dBContext);
             UpdateOrder = new UpdateRepository<Order>(dBContext);
             DeleteOrder = new DeleteRepository<Order>(dBContext);
+            IPaymentBy = new PaymentBy(dBContext);
+            PayDrivary = new PayDrivary(dBContext);
+            Paycassh = new PayCash(dBContext);
 
-
-            PaymentBy = new CashOnDeliveryPayment();
-            PaymentBy = new CasPayment();
         }
 
      

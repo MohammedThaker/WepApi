@@ -1,25 +1,20 @@
-﻿using Application.Interfaces;
-using Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces;
+using Domain.Models;
+using Domain.Models.Request;
 
 namespace Infrastructure.Interfacies
 {
-    public class CasPayment :   IPaymentBy
+    public class PayCash : PaymentBy, IPayCash
     {
-       
-
-        public override void ProcessPayment(string name) {
-
-             
-            Console.WriteLine(name);
-        
-        
+        public PayCash(LibraryDBContext dBContext) : base(dBContext)
+        {
         }
 
+       
     }
-    }
-
+}
