@@ -12,9 +12,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<LibraryDBContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
-builder.Services.AddDbContext<LibraryDBContext>(
-    opt=>opt.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=store;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
 builder.Services.AddTransient<IAddUnitOfWork, AddUnitOfWork>();
 builder.Services.AddTransient<IPaymentFactory, PaymentFactoryGet>();
