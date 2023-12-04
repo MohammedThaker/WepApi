@@ -24,7 +24,7 @@ namespace WebApi.Controllers
 
 
         [HttpGet]
-        public IActionResult GetOrder()
+        public IActionResult GetOrder(string type)
         {
             var Custpay = unitOftWork.GetAllOrder.GetAll();
 
@@ -120,8 +120,8 @@ namespace WebApi.Controllers
             if (PaymentUpdate == null)
                 return NotFound($"Movie with Id = {Id} not found");
 
-            PaymentUpdate.PaymentTypy = NewOrder.OrderNo;
-
+/*            PaymentUpdate.PaymentTypy = NewOrder.OrderNo;
+*/
 
             unitOftWork.Complete();
             return Ok(PaymentUpdate);

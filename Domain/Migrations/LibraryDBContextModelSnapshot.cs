@@ -82,6 +82,10 @@ namespace Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PaymentTypy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -89,6 +93,32 @@ namespace Domain.Migrations
                     b.HasKey("PaymentId");
 
                     b.ToTable("Payment");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Payment");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Domain.Models.Request.PayDelivery", b =>
+                {
+                    b.HasBaseType("Domain.Models.Request.Payment");
+
+                    b.Property<string>("Pdelivary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("PayDelivery");
+                });
+
+            modelBuilder.Entity("Domain.Models.Request.PaymentCash", b =>
+                {
+                    b.HasBaseType("Domain.Models.Request.Payment");
+
+                    b.Property<string>("Pcash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("PaymentCash");
                 });
 #pragma warning restore 612, 618
         }

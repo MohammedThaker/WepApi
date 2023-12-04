@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Models;
+using Domain.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfacies
 {
-    public class CasPayment :   IPaymentBy
+    public class PayDelivaryAdd<T> : PaymentByAdd<T>, IPayDelivaryAdd<T> where T : PayDelivery
     {
-       
-
-        public override void ProcessPayment(string name) {
-
-             
-            Console.WriteLine(name);
-        
-        
+        public PayDelivaryAdd(LibraryDBContext dBContext) : base(dBContext)
+        {
         }
-
     }
-    }
-
+}

@@ -12,12 +12,15 @@ namespace WebApi.Controllers
     public class PaymentsController : ControllerBase
     {      
         public readonly IAddUnitOfWork unitOftWork;
+        public readonly IPaymentFactory PaymentFactory;
 
 
-        public PaymentsController(IAddUnitOfWork unitOftWork)
+
+        public PaymentsController(IAddUnitOfWork unitOftWork, IPaymentFactory PaymentFactory)
         {
 
             this.unitOftWork = unitOftWork;
+           this.PaymentFactory = PaymentFactory;
           
         }
 
@@ -25,24 +28,48 @@ namespace WebApi.Controllers
         [HttpGet]
         public IActionResult GetPayments()
         {
-            var Custpay = unitOftWork.GetAllPayment.GetAll();               
+           
 
-            if (Custpay == null)
-                return NotFound(" Invalid Payments Id");
-            return Ok(Custpay);
-
+            var Cust = unitOftWork.IPaymentBy.GetAll();
+            if (Cust == null)
+                return NotFound(" Invalid Payments");
+            return Ok(Cust);
+            
 
         }
 
 
+        [HttpGet("Type")]
+        public IActionResult GetPay(string type)
+        {
+
+          
+            if (type == null)
+                return NotFound(" Invalid Payments");
+            else if (type.ToLower() == "delivary")
+            {
+                var paydel = unitOftWork.PayDrivary.GetAll();
+                return Ok(paydel);
+            }
+            else if (type.ToLower()== "cash")
+            {  var payash = unitOftWork.Paycassh.GetAll();
+            return Ok(payash); }
+            else 
+                return NotFound(" Invalid Payments");
+
+
+        }
 
         [HttpGet("{Id}")]
         public IActionResult GetPaymentsById(int Id)
         {
 
-            var Cust = unitOftWork.GetPayments.GetByIdi(Id);
+          
+            Payment? Cust = unitOftWork.GetPayments.GetByIdi(Id);
+
             if (Cust == null)
                 return NotFound(" Invalid Payments Id");
+         
             return Ok(Cust);
 
 
@@ -56,65 +83,39 @@ namespace WebApi.Controllers
 
 
 
-
-
-        [HttpPost]
-        public IActionResult SetPayments([FromBody] Payment NewPayment)
+        [HttpPost("ByDelivary")]
+        public IActionResult SetPayDelivary([FromBody] PayDelivery ByDelivary)
         {
 
-            if (String.IsNullOrEmpty(NewPayment.PaymentTypy))
-            {
-                return BadRequest(new { ErrorCode = 501, ErrorMessage = " Invalid Payments name" });
+            /* if (String.IsNullOrEmpty(NewPayment.PaymentTypy))
+             {
+                 return BadRequest(new { ErrorCode = 501, ErrorMessage = " Invalid Payments name" });
 
-            }
-
-
-            unitOftWork.AddPayment.Add(NewPayment);
-
-
+             }*/
+         
+         if(ByDelivary == null)   
+            unitOftWork.PayByDelivaryAdd.Add(ByDelivary);
             unitOftWork.Complete();
-                 IPaymentBy paymentMethod;
-
-            ;
-            if (NewPayment.PaymentTypy == "dalivery")
-            {
-                var pay = NewPayment.PaymentTypy;
-                paymentMethod = new CashOnDeliveryPayment();
-                paymentMethod.ProcessPayment(pay);
-            }
-            else
-            {
-                var pay = NewPayment.PaymentTypy;
-                   paymentMethod = new CasPayment();
-
-                paymentMethod.ProcessPayment(pay) ;
-                Console.WriteLine();
-
-            }
-
-          
+            return Ok(ByDelivary);
 
 
 
 
+        }
+        [HttpPost("PayCash")]
+        public IActionResult SetPayCash([FromBody] PaymentCash PayCash)
+        {
+
+            /* if (String.IsNullOrEmpty(NewPayment.PaymentTypy))
+             {
+                 return BadRequest(new { ErrorCode = 501, ErrorMessage = " Invalid Payments name" });
+
+             }*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            return Ok(NewPayment);
+            unitOftWork.PayByCashAdd.Add(PayCash);
+            unitOftWork.Complete();
+            return Ok(PayCash);
 
 
 
@@ -127,41 +128,7 @@ namespace WebApi.Controllers
 
 
 
-
-        [HttpPut("Id")]
-        public IActionResult UpdatePayments(int Id, [FromBody] Payment NewCustmoer)
-        {
-
-
-            var PaymentUpdate = unitOftWork.GetPayments.GetByIdi(Id);
-
-            if (PaymentUpdate == null)
-                return NotFound($"Movie with Id = {Id} not found");
-
-            PaymentUpdate.PaymentTypy = NewCustmoer.PaymentTypy;
-
-           
-            unitOftWork.Complete();
-            return Ok(PaymentUpdate);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }
+      
         [HttpDelete("Id")]
         public IActionResult RemoveById(int Id)
         {
